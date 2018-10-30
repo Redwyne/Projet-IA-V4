@@ -10,6 +10,7 @@ import static ppc.backtracking.*;
 import planning.*;
 public class main {
     public static void main (String[] args) {
+        //MOO LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNNNNNNNNNNNNNNGGGGGGGGGGGGGGGGGGGGGGGGGGG
 
 
         // Creation de la variable de couleur du toit et de son domaine
