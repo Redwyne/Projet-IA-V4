@@ -1,24 +1,26 @@
 package representations;
 
 
+import planning.State;
+
 import java.util.ArrayList;
 import java.util.Map;
 
 public class Rule implements Constraint {
 
-    Map<Variable,String> premisse;
-    Map<Variable,String> conclusion;
+    State premisse;
+    State conclusion;
 
-    public Rule(Map<Variable, String> premisse, Map<Variable, String> conclusion) {
+    public Rule(State premisse, State conclusion) {
         this.premisse = premisse;
         this.conclusion = conclusion;
     }
 
-    public Map<Variable, String> getPremisse() {
+    public State getPremisse() {
         return premisse;
     }
 
-    public Map<Variable, String> getConclusion() {
+    public State getConclusion() {
         return conclusion;
     }
 
@@ -26,7 +28,7 @@ public class Rule implements Constraint {
     public boolean isSatisfiedBy(Map<Variable, String> mycar) {
         boolean p = true;
         boolean c = true;
-        for (Map.Entry<Variable, String> entry : premisse.entrySet()) {
+        for (Map.Entry<Variable, String> entry : premisse.getEtat().entrySet()) {
             String x = entry.getKey().getNom();
             if (mycar.get(x)==(null)){
                 p=true;
@@ -41,7 +43,7 @@ public class Rule implements Constraint {
         }
 
         if (p) {
-            for (Map.Entry<Variable, String> entry : conclusion.entrySet()) {
+            for (Map.Entry<Variable, String> entry : conclusion.getEtat().entrySet()) {
                 String y = entry.getKey().getNom();
                 if (mycar.get(y)==(null)){
                     c=true;

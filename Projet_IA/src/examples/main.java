@@ -10,7 +10,6 @@ import static ppc.backtracking.*;
 import planning.*;
 public class main {
     public static void main (String[] args) {
-        //MOO LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNNNNNNNNNNNNNNGGGGGGGGGGGGGGGGGGGGGGGGGGG
 
 
         // Creation de la variable de couleur du toit et de son domaine
@@ -92,11 +91,13 @@ public class main {
 
         // instanciation d'une regle de type Rule avec ses premisses (pr ) et ses conclusions ( ccl)
 
-        Map<Variable,String> pr= new HashMap<>();
-        pr.put(ct,"R");
-        pr.put(cg,"V");
-        Map<Variable,String> ccl= new HashMap<>();
-        ccl.put(cd,"B");
+        HashMap<Variable,String> pr_etat= new HashMap<>();
+        pr_etat.put(ct,"R");
+        pr_etat.put(cg,"V");
+        State pr=new State(pr_etat);
+        HashMap<Variable,String> ccl_etat= new HashMap<>();
+        ccl_etat.put(cd,"B");
+        State ccl=new State(ccl_etat);
         Rule R1=new Rule(pr,ccl);
 
         // instanciation d'une regle de type Allequal constraint
@@ -140,10 +141,12 @@ public class main {
 
 
 
-        Map<Variable,String> premisses= new HashMap<>();
-        premisses.put(cg,"V");
-        Map<Variable,String> effect= new HashMap<>();
-        effect.put(cg,"N");
+        HashMap<Variable,String> premisses_etat= new HashMap<>();
+        State premisses=new State(premisses_etat);
+        premisses.getEtat().put(cg,"V");
+        HashMap<Variable,String> effect_etat= new HashMap<>();
+        State effect=new State(effect_etat);
+        effect.getEtat().put(cg,"N");
         Action color =new Action(premisses,effect);
 
         HashMap<Variable,String> etat=new HashMap();

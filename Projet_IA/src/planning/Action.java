@@ -5,7 +5,7 @@ import representations.*;
 
 public class Action extends Rule {
 
-    public Action(Map<Variable, String> premisse, Map<Variable, String> conclusion) {
+    public Action(State premisse, State conclusion) {
         super(premisse, conclusion);
 }
 
@@ -28,8 +28,8 @@ Ce que j'ai pigé :
 
  */
 
-    public static boolean satisfies(State etat, Map<Variable, String> etat_partiel) {
-        for (Map.Entry elt : etat_partiel.entrySet()) {
+    public static boolean satisfies(State etat, State etat_partiel) {
+        for (Map.Entry elt : etat_partiel.getEtat().entrySet()) {
             if (!etat.getEtat().containsKey(elt.getKey()) || etat.getEtat().get(elt.getKey()) != elt.getValue()) {
                 return false;
             }
@@ -52,9 +52,9 @@ Ce que j'ai pigé :
     public static State apply(ArrayList<Action> actions, State etat) {
         State etat_copy=new State(etat.getEtat());
         if (is_applicable(actions,etat)){
-            for (Rule rule: actions){
-                if(satisfies(etat,rule.getPremisse())){
-                    for (Map.Entry me : rule.getConclusion().entrySet()) {
+            for (Action act: actions){
+                if(satisfies(etat,act.getPremisse())){
+                    for (Map.Entry me : act.getConclusion().getEtat().entrySet()) {
                         etat_copy.getEtat().put((Variable) me.getKey(),(String) me.getValue());
                     }
                 }

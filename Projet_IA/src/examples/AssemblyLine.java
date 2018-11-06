@@ -17,9 +17,9 @@ public class AssemblyLine {
 
     public State simulation(){
         //on initialise toutes nos variables (et les possibilités de couleurs) (ici par ce que je sais pas ou les mettre autrement)
-        Set<String> tf=new HashSet();
-        tf.add("true");
-        tf.add("false");
+        Set<String> dom_truefalse=new HashSet();
+        dom_truefalse.add("true");
+        dom_truefalse.add("false");
         Set<String> ALL_COLORS=new HashSet<>();
         ALL_COLORS.add("GRAY");
         ALL_COLORS.add("BLACK");
@@ -30,12 +30,12 @@ public class AssemblyLine {
         ALL_COLORS.add("ORANGE");
         ALL_COLORS.add("YELLOW");
 
-        Variable HAS_CHASSIS=new Variable("chassis",tf);
-        Variable HAS_roue_avg=new Variable("roue_avg",tf);
-        Variable HAS_roue_avd=new Variable("roue_avd",tf);
-        Variable HAS_roue_arg=new Variable("roue_arg",tf);
-        Variable HAS_roue_ard=new Variable("roue_ard",tf);
-        Variable HAS_CORPS=new Variable("corps",tf);
+        Variable HAS_CHASSIS=new Variable("chassis",dom_truefalse);
+        Variable HAS_roue_avg=new Variable("roue_avg",dom_truefalse);
+        Variable HAS_roue_avd=new Variable("roue_avd",dom_truefalse);
+        Variable HAS_roue_arg=new Variable("roue_arg",dom_truefalse);
+        Variable HAS_roue_ard=new Variable("roue_ard",dom_truefalse);
+        Variable HAS_CORPS=new Variable("corps",dom_truefalse);
 
         ArrayList<Variable> X_Y_WHEEL_COLOR=new ArrayList<>();
         X_Y_WHEEL_COLOR.add(new Variable(HAS_roue_avg.getNom(),ALL_COLORS));
@@ -59,9 +59,12 @@ public class AssemblyLine {
 
         State etat_but=new State(init_state);
         //on crée une action permettant d ajouter le chassis(aucune precondition) avant de l appliquer a notre etat_but (le chassis permettant la pose de toutes autres pieces)
-        Map<Variable,String> precond= new HashMap<>();
-        Map<Variable,String> effect= new HashMap<>();
-        effect.put(HAS_CHASSIS,"true");
+
+        HashMap<Variable,String> precond_etat= new HashMap<>();
+        State precond=new State(precond_etat);
+        HashMap<Variable,String> effect_etat= new HashMap<>();
+        State effect=new State(effect_etat);
+        effect.getEtat().put(HAS_CHASSIS,"true");
         Action ajout_chassis =new Action(precond,effect);
         ArrayList<Action> liste_action=new ArrayList<>();
         liste_action.add(ajout_chassis);
@@ -70,12 +73,12 @@ public class AssemblyLine {
         //on vide effect (precond n a pas besoin) pour le re utiliser
         //on parcourt notre init_state pour créer chacune de ses valeurs à notre etat_but (qu on va accompagner d une couleur random)
         for (HashMap.Entry jsp : init_state.entrySet()) {
-            precond.clear();
-            effect.clear();
-            precond.put(HAS_CHASSIS,"true");
+            precond.getEtat().clear();
+            effect.getEtat().clear();
+            precond.getEtat().put(HAS_CHASSIS,"true");
             int randomNum = ThreadLocalRandom.current().nextInt(0, ALL_COLORS.size() + 1);
             Object[] l_allcolor =Arrays.copyOf(ALL_COLORS.toArray(), (ALL_COLORS.size()));
-            effect.put((Variable)jsp.getKey(),(String) l_allcolor[randomNum]);
+            effect.getEtat().put((Variable)jsp.getKey(),(String) l_allcolor[randomNum]);
             Action actionX=new Action(precond,effect);
             liste_action.add(actionX);
 ;            //etat_but.getEtat().put((Variable) jsp.getKey(),(String) l_allcolor[randomNum]);           equivalent si action marche
