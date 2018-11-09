@@ -2,13 +2,16 @@ package ehcestlenouveaupackage;
 
 import javafx.util.Pair;
 import representations.Variable;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 //que veut dire 'transcrire les instances'
 
 public class Database extends BooleanDatabase{
 
-    public Database(HashMap<Object, String> liste_transactions, HashMap<Object, String> liste_variable) {
+
+    public Database(ArrayList<Transactions> liste_transactions, ArrayList<Variable> liste_variable) {
         super(liste_transactions, liste_variable);
     }
 
@@ -30,7 +33,8 @@ public class Database extends BooleanDatabase{
 
         }
 
-        BooleanDatabase bd_bool_f=new BooleanDatabase(bd_bool_tr,bd_bool_var);
-        return bd_bool_f;
+        //BooleanDatabase bd_bool_f=new BooleanDatabase(bd_bool_tr,bd_bool_var);
+        //return bd_bool_f;
+        return null;
     }
 }
